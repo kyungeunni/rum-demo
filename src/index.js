@@ -1,13 +1,13 @@
 import apm from './apm';
 import { poll, stopPoll } from './poll';
-import { measureTime } from './custom-span';
+import { addMockSpan } from './custom-span';
 
-var btn1 = document.querySelector('#btn1');
+const btn1 = document.querySelector('#btn1');
 btn1.addEventListener('click', () => {
-    measureTime().then().catch(err => apm.captureError(err));
+    addMockSpan().then().catch(err => apm.captureError(err));
 });
 
-var btn2 = document.querySelector('#btn2');
+const btn2 = document.querySelector('#btn2');
 btn2.addEventListener('click', () => {
     const div = document.querySelector('#cat-div');
     div.innerHTML = '';
@@ -27,18 +27,26 @@ btn2.addEventListener('click', () => {
         });
 });
 
-var btn3 = document.querySelector('#btn3');
+const btn3 = document.querySelector('#btn3');
 btn3.addEventListener('click', () => {
     poll().then();
 });
 
-var btn4 = document.querySelector('#btn4');
+const btn4 = document.querySelector('#btn4');
 btn4.addEventListener('click', () => {
     stopPoll();
 });
 
-var btn5 = document.querySelector('#btn5');
+const btn5 = document.querySelector('#btn5');
 btn5.addEventListener('click', () => {
     window.history.pushState({}, '', '#foo');
-    measureTime().then().catch(err => apm.captureError(err));
+    addMockSpan().then().catch(err => apm.captureError(err));
+});
+
+const select = document.querySelector('#dropdown');
+select.addEventListener('change', (ev) => {
+    ev.stopPropagation();
+    const hash = ev.target.value;
+    window.history.pushState({}, '', hash);
+    addMockSpan().then().catch(err => apm.captureError(err));
 });
