@@ -12,4 +12,5 @@ app.use(async ctx => {
 
 app.listen(3000, () => {
     console.log('starting the web server on port 3000');
+    console.log('open http://localhost:3000');
 });
